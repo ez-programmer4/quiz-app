@@ -28,26 +28,29 @@ const Login = () => {
         "https://quiz-app-backend-1-g8ew.onrender.com/api/auth/login",
         { email, password }
       );
+
+      // Store token and user info in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userRole", response.data.role);
 
-      if (response.data.role === "admin") {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/dashboard");
-      }
+      // Redirect based on user role
+      navigate(
+        response.data.role === "admin" ? "/admin-dashboard" : "/dashboard"
+      );
     } catch (error) {
       if (error.response && error.response.data) {
+        // Set error message from server response
         setErrorMessage(
           error.response.data.message ||
             "Login failed. Please check your credentials."
         );
       } else {
+        // General error message
         setErrorMessage("Login failed. Please try again later.");
       }
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset loading state
     }
   };
 
