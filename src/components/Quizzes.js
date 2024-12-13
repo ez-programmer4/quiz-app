@@ -18,7 +18,7 @@ const Quizzes = () => {
     const fetchQuizzes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/quizzes/category/${categoryId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/category/${categoryId}`
         );
         console.log("Fetched quizzes:", response.data); // Log the fetched quizzes
         setQuizzes(response.data);

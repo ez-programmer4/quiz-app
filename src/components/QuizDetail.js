@@ -21,7 +21,7 @@ const QuizDetail = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/quizzes/${quizId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quizId}`
         );
         setQuiz(response.data);
       } catch (error) {

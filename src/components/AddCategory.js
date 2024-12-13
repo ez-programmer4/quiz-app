@@ -18,10 +18,13 @@ const AddCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/categories", {
-        name: categoryName,
-        description: description, // Include description in the request
-      });
+      await axios.post(
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/categories",
+        {
+          name: categoryName,
+          description: description, // Include description in the request
+        }
+      );
       setCategoryName("");
       setDescription(""); // Clear description after submission
       navigate("/admin-dashboard"); // Redirect after successful submission

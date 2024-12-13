@@ -12,7 +12,9 @@ const QuizForm = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.get("http://localhost:5000/api/categories");
+      const response = await axios.get(
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/categories"
+      );
       setCategories(response.data);
     };
     fetchCategories();
@@ -40,7 +42,10 @@ const QuizForm = () => {
     const quizData = { title, categoryId: category, questions };
 
     try {
-      await axios.post("http://localhost:5000/api/quizzes", quizData);
+      await axios.post(
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes",
+        quizData
+      );
       setTitle("");
       setCategory("");
       setQuestions([{ question: "", options: ["", "", "", ""], answer: "" }]);

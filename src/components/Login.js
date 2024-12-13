@@ -25,7 +25,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/auth/login",
         { email, password }
       );
       localStorage.setItem("token", response.data.token);

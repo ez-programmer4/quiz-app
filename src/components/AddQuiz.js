@@ -33,7 +33,7 @@ const AddQuiz = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/categories"
+          "https://quiz-app-backend-1-g8ew.onrender.com/api/categories"
         );
         setCategories(response.data);
       } catch (error) {
@@ -94,11 +94,15 @@ const AddQuiz = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/quizzes", quizData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.post(
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes",
+        quizData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       navigate("/admin-dashboard");
     } catch (error) {
       console.error(

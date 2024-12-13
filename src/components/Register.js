@@ -31,7 +31,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/auth/register",
         { email, password }
       );
       navigate("/login");

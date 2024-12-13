@@ -13,15 +13,17 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const quizResponse = await axios.get(
-          "http://localhost:5000/api/quizzes"
+          "https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes"
         );
         setQuizzes(quizResponse.data);
 
-        const userResponse = await axios.get("http://localhost:5000/api/users");
+        const userResponse = await axios.get(
+          "https://quiz-app-backend-1-g8ew.onrender.com/api/users"
+        );
         setUsers(userResponse.data);
 
         const categoryResponse = await axios.get(
-          "http://localhost:5000/api/categories"
+          "https://quiz-app-backend-1-g8ew.onrender.com/api/categories"
         );
         setCategories(categoryResponse.data);
       } catch (error) {
@@ -54,11 +56,14 @@ const AdminDashboard = () => {
   const handleDeleteQuiz = async (quizId) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/quizzes/${quizId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quizId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setQuizzes((prevQuizzes) =>
         prevQuizzes.filter((quiz) => quiz._id !== quizId)
       );
@@ -73,11 +78,14 @@ const AdminDashboard = () => {
   const handleDeleteCategory = async (categoryId) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5000/api/categories/${categoryId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `https://quiz-app-backend-1-g8ew.onrender.com/api/categories/${categoryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category._id !== categoryId)
       );

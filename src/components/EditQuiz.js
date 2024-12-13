@@ -19,7 +19,7 @@ const EditQuiz = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/quizzes/${quizId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quizId}`
         );
         setQuiz(response.data);
       } catch (error) {
@@ -51,11 +51,15 @@ const EditQuiz = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.put(`http://localhost:5000/api/quizzes/${quizId}`, quiz, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.put(
+        `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quizId}`,
+        quiz,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       navigate("/admin-dashboard");
     } catch (error) {
       console.error("Error updating quiz:", error);

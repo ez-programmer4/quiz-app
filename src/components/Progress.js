@@ -21,7 +21,7 @@ const Progress = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/progress/${userId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${userId}`
         );
         console.log("Fetched progress data:", response.data); // Log the response
         setProgressData(response.data);
@@ -37,7 +37,9 @@ const Progress = () => {
 
   const handleDeleteProgress = async (progressId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/progress/${progressId}`);
+      await axios.delete(
+        `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${progressId}`
+      );
       // Update state to remove the deleted progress
       setProgressData(progressData.filter((quiz) => quiz._id !== progressId));
     } catch (error) {

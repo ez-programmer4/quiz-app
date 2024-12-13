@@ -25,7 +25,7 @@ const Quiz = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/quizzes/${quizId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quizId}`
         );
         setQuiz(response.data);
         setTimeLeft(response.data.questions.length * 60); // 1 minute per question
@@ -79,7 +79,7 @@ const Quiz = () => {
       };
 
       await axios.post(
-        "http://localhost:5000/api/result",
+        "https://quiz-app-backend-1-g8ew.onrender.com/api/result",
         {
           quizId: quiz._id,
           score,

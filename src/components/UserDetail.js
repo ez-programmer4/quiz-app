@@ -19,17 +19,17 @@ const UserDetail = () => {
 
       try {
         const userResponse = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/users/${userId}`
         );
         setUser(userResponse.data);
 
         const progressResponse = await axios.get(
-          `http://localhost:5000/api/progress/${userId}`
+          `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${userId}`
         );
         setProgressData(progressResponse.data);
 
         const categoriesResponse = await axios.get(
-          "http://localhost:5000/api/categories"
+          "https://quiz-app-backend-1-g8ew.onrender.com/api/categories"
         );
         setCategories(categoriesResponse.data);
       } catch (error) {
