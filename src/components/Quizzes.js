@@ -7,12 +7,13 @@ import {
   CardContent,
   Button,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Quizzes = () => {
   const { categoryId } = useParams();
   const [quizzes, setQuizzes] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -28,6 +29,11 @@ const Quizzes = () => {
     };
     fetchQuizzes();
   }, [categoryId]);
+
+  const handleStartQuiz = (quizId) => {
+    // Use navigate to go to the quiz page for the selected quiz
+    navigate(`/quiz/${quizId}`);
+  };
 
   return (
     <Container maxWidth="lg" style={{ marginTop: "20px" }}>
@@ -53,7 +59,7 @@ const Quizzes = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    href={`/quiz/${quiz._id}`} // Use _id instead of id
+                    onClick={() => handleStartQuiz(quiz._id)} // Use onClick instead of href
                     style={{ marginTop: "10px" }}
                   >
                     Start Quiz
