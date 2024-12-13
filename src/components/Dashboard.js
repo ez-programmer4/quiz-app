@@ -63,7 +63,7 @@ const Dashboard = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  href={`/quizzes/${category._id}`}
+                  href={`api/quizzes/${category._id}`}
                   sx={{ marginTop: "10px" }}
                 >
                   View Quizzes
