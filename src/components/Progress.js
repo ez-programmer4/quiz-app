@@ -62,13 +62,18 @@ const Progress = () => {
                 <Typography
                   variant="h6"
                   style={{ cursor: "pointer", color: "#3f51b5" }}
-                  onClick={() => navigate(`/quiz-detail/${quiz.quizId._id}`)}
+                  onClick={() => {
+                    if (quiz.quizId) {
+                      navigate(`/quiz-detail/${quiz.quizId._id}`);
+                    } else {
+                      console.error("Quiz ID is missing");
+                    }
+                  }}
                 >
-                  {quiz.quizId.title}
+                  {quiz.quizId ? quiz.quizId.title : "Quiz Title Unavailable"}
                 </Typography>
                 <Typography variant="body2">
                   Category: {quiz.categoryId?.name || "No category"}{" "}
-                  {/* Safely access category name */}
                 </Typography>
                 <Typography variant="body1">Score: {quiz.score}</Typography>
                 <Typography variant="body2">
