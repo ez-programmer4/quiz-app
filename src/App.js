@@ -17,6 +17,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import EditQuiz from "./components/EditQuiz"; // Import the EditQuiz component
 import ViewQuiz from "./components/ViewQuiz"; // Import the ViewQuiz component
 import UserDetail from "./components/UserDetail"; // Import the UserDetail component
+import NotFound from "./components/NotFound"; // Import the NotFound component
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token"); // Check for token
@@ -133,6 +134,9 @@ function App() {
             />
           }
         />
+
+        {/* Catch-all route for 404 Not Found */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>

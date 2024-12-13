@@ -7,14 +7,19 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch user role from localStorage when the component mounts
     const role = localStorage.getItem("userRole");
     setUserRole(role);
   }, []);
 
   const handleLogout = () => {
+    // Clear user info from localStorage
     localStorage.removeItem("userRole");
     localStorage.removeItem("token");
-    setUserRole(null);
+
+    // Optionally, you can show a confirmation message or feedback here
+
+    // Redirect to the login page
     navigate("/login");
   };
 
