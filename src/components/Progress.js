@@ -63,10 +63,11 @@ const Progress = () => {
                   variant="h6"
                   style={{ cursor: "pointer", color: "#3f51b5" }}
                   onClick={() => {
+                    // Check if quizId is valid before navigating
                     if (quiz.quizId) {
                       navigate(`/quiz-detail/${quiz.quizId._id}`);
                     } else {
-                      console.error("Quiz ID is missing");
+                      console.error("Quiz ID is missing for:", quiz);
                     }
                   }}
                 >
