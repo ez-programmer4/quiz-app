@@ -8,9 +8,11 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -27,6 +29,11 @@ const Dashboard = () => {
 
     fetchCategories();
   }, []);
+
+  const handleViewQuizzes = (categoryId) => {
+    // Use navigate to go to the quizzes page for the selected category
+    navigate(`/quizzes/${categoryId}`);
+  };
 
   return (
     <Container
@@ -58,12 +65,13 @@ const Dashboard = () => {
                   {category.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {category.description}
+                  {/* Added a default description if not provided */}
+                  {category.description || "No description available."}
                 </Typography>
                 <Button
                   variant="contained"
                   color="primary"
-                  href={`api/quizzes/${category._id}`}
+                  onClick={() => handleViewQuizzes(category._id)} // Use onClick instead of href
                   sx={{ marginTop: "10px" }}
                 >
                   View Quizzes
