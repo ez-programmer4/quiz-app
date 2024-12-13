@@ -30,12 +30,12 @@ const Home = () => {
             <Button
               variant="contained"
               color="primary"
-              href="/login"
+              to="/login"
               style={{ marginRight: "10px" }}
             >
               Login
             </Button>
-            <Button variant="outlined" color="primary" href="/register">
+            <Button variant="outlined" color="primary" to="/register">
               Register
             </Button>
           </Box>
