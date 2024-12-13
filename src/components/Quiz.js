@@ -20,7 +20,6 @@ const Quiz = () => {
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
-
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
@@ -31,11 +30,13 @@ const Quiz = () => {
         setTimeLeft(response.data.questions.length * 60); // 1 minute per question
       } catch (error) {
         console.error("Error fetching quiz:", error);
+        alert("Quiz not found. Please check the quiz ID or try again later."); // User-friendly message
+        navigate("/dashboard"); // Redirect to a safe route
       }
     };
 
     fetchQuiz();
-  }, [quizId]);
+  }, [quizId, navigate]);
 
   useEffect(() => {
     if (timeLeft > 0) {
