@@ -36,6 +36,9 @@ const Footer = () => {
               </a>
             </Typography>
           </Grid>
+          <Typography variant="body1" align="center">
+            Created by ezedin ebrahim - Full Stack Developer -
+          </Typography>
         </Grid>
       </Container>
     </Box>

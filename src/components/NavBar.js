@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../UserContext"; // Ensure the path is correct
 
 const Navbar = () => {
-  const [userRole, setUserRole] = useState(null);
+  const { user, logout } = useUser(); // This should now work
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch user role from localStorage when the component mounts
-    const role = localStorage.getItem("userRole");
-    setUserRole(role);
-  }, []);
-
   const handleLogout = () => {
-    // Clear user info from localStorage
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("token");
-
-    // Optionally, you can show a confirmation message or feedback here
-
-    // Redirect to the login page
+    logout(); // Clear user state in context
     navigate("/login");
   };
 
@@ -33,7 +22,7 @@ const Navbar = () => {
           <Button color="inherit" component={Link} to="/">
             Home
           </Button>
-          {userRole === "admin" && (
+          {user?.role === "admin" && (
             <>
               <Button color="inherit" component={Link} to="/add-quiz">
                 Add Quiz
@@ -49,7 +38,7 @@ const Navbar = () => {
               </Button>
             </>
           )}
-          {userRole === "user" && (
+          {user?.role === "user" && (
             <>
               <Button color="inherit" component={Link} to="/dashboard">
                 Quizzes
@@ -62,7 +51,7 @@ const Navbar = () => {
               </Button>
             </>
           )}
-          {!userRole && (
+          {!user && (
             <>
               <Button color="inherit" component={Link} to="/login">
                 Login

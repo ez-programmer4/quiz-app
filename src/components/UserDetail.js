@@ -71,24 +71,6 @@ const UserDetail = () => {
       ) : (
         <div>No progress found.</div>
       )}
-
-      <Typography variant="h6" gutterBottom sx={{ marginTop: 2 }}>
-        Available Categories:
-      </Typography>
-      <Grid container spacing={4}>
-        {categories.map((category) => (
-          <Grid item xs={12} sm={6} md={4} key={category._id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">{category.name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {category.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </Container>
   );
 };

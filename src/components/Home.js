@@ -1,7 +1,15 @@
 import React from "react";
 import { Container, Typography, Button, Box, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const handleLogin = () => {
+    navigate("/login");
+  };
+  const handleRegister = () => {
+    navigate("/register");
+  };
   return (
     <Container
       maxWidth="md"
@@ -30,12 +38,12 @@ const Home = () => {
             <Button
               variant="contained"
               color="primary"
-              to="/login"
+              onClick={handleLogin}
               style={{ marginRight: "10px" }}
             >
               Login
             </Button>
-            <Button variant="outlined" color="primary" to="/register">
+            <Button variant="outlined" color="primary" onClick={handleRegister}>
               Register
             </Button>
           </Box>
