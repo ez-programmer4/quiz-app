@@ -1,93 +1,66 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, Typography, Grid, Paper, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import {
+  Container,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+} from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
 
-const Progress = () => {
-  const [progressData, setProgressData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const Result = () => {
+  const { score, total, quizId } = useParams(); // Get quizId from the URL parameters
   const navigate = useNavigate();
 
-  // Retrieve the user ID from local storage
-  const userId = localStorage.getItem("userId");
-
-  useEffect(() => {
-    const fetchProgressData = async () => {
-      if (!userId) {
-        console.error("User ID not found");
-        navigate("/login");
-        return;
-      }
-
-      try {
-        const response = await axios.get(
-          `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${userId}`
-        );
-        console.log("Fetched progress data:", response.data); // Log the response
-        setProgressData(response.data);
-      } catch (error) {
-        console.error("Error fetching progress data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProgressData();
-  }, [navigate, userId]);
-
-  const handleDeleteProgress = (progressId) => {
-    // Update state to remove the deleted progress without calling the backend
-    setProgressData(progressData.filter((quiz) => quiz._id !== progressId));
-  };
-
-  if (loading) return <Typography>Loading...</Typography>;
+  const parsedScore = parseInt(score, 10);
+  const parsedTotal = parseInt(total, 10);
 
   return (
-    <Container maxWidth="md" style={{ marginTop: "2rem" }}>
-      <Paper elevation={3} style={{ padding: "2rem" }}>
-        <Typography variant="h5" gutterBottom>
-          Your Progress
-        </Typography>
-        <Grid container spacing={2}>
-          {progressData.map((quiz) => (
-            <Grid item xs={12} key={quiz._id}>
-              <Paper style={{ padding: "1rem", marginBottom: "1rem" }}>
-                <Typography
-                  variant="h6"
-                  style={{ cursor: "pointer", color: "#3f51b5" }}
-                  onClick={() => {
-                    // Check if quizId is valid before navigating
-                    if (quiz.quizId) {
-                      navigate(`/quiz-detail/${quiz.quizId._id}`);
-                    } else {
-                      console.error("Quiz ID is missing for:", quiz);
-                    }
-                  }}
-                >
-                  {quiz.quizId ? quiz.quizId.title : "Quiz Title Unavailable"}
-                </Typography>
-                <Typography variant="body2">
-                  Category: {quiz.categoryId?.name || "No category"}{" "}
-                </Typography>
-                <Typography variant="body1">Score: {quiz.score}</Typography>
-                <Typography variant="body2">
-                  Date Completed: {new Date(quiz.date).toLocaleDateString()}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => handleDeleteProgress(quiz._id)}
-                  style={{ marginTop: "1rem" }}
-                >
-                  Delete Progress
-                </Button>
-              </Paper>
-            </Grid>
-          ))}
+    <Container maxWidth="lg" sx={{ marginTop: 2, textAlign: "center" }}>
+      <Typography variant="h4" gutterBottom>
+        Quiz Results
+      </Typography>
+      <Card variant="outlined" sx={{ marginBottom: 2 }}>
+        <CardContent>
+          {isNaN(parsedScore) || isNaN(parsedTotal) ? (
+            <Typography variant="h5" color="error">
+              Invalid results. Please try again.
+            </Typography>
+          ) : (
+            <>
+              <Typography variant="h5">
+                You scored {parsedScore} out of {parsedTotal}!
+              </Typography>
+              <Typography variant="body1" sx={{ marginTop: 1 }}>
+                {parsedScore === 0
+                  ? "Don't be discouraged! Try again to improve your score."
+                  : "Great job! Keep up the good work!"}
+              </Typography>
+            </>
+          )}
+        </CardContent>
+      </Card>
+      <Grid container justifyContent="center">
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              if (quizId) {
+                navigate(`/quiz-detail/${quizId}`); // Navigate to quiz detail page
+              } else {
+                console.error("Quiz ID is missing.");
+              }
+            }}
+            sx={{ marginTop: 2 }}
+          >
+            Back to Quiz Detail
+          </Button>
         </Grid>
-      </Paper>
+      </Grid>
     </Container>
   );
 };
 
-export default Progress;
+export default Result;
