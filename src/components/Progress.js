@@ -35,16 +35,9 @@ const Progress = () => {
     fetchProgressData();
   }, [navigate, userId]);
 
-  const handleDeleteProgress = async (progressId) => {
-    try {
-      await axios.delete(
-        `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${progressId}`
-      );
-      // Update state to remove the deleted progress
-      setProgressData(progressData.filter((quiz) => quiz._id !== progressId));
-    } catch (error) {
-      console.error("Error deleting progress:", error);
-    }
+  const handleDeleteProgress = (progressId) => {
+    // Update state to remove the deleted progress without calling the backend
+    setProgressData(progressData.filter((quiz) => quiz._id !== progressId));
   };
 
   if (loading) return <Typography>Loading...</Typography>;

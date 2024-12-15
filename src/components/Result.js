@@ -10,7 +10,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 
 const Result = () => {
-  const { score, total } = useParams();
+  const { score, total, quizId } = useParams(); // Get quizId from the URL parameters
   const navigate = useNavigate();
 
   const parsedScore = parseInt(score, 10);
@@ -46,10 +46,10 @@ const Result = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate(`/quiz-detail/${quizId}`)} // Navigate to quiz detail page
             sx={{ marginTop: 2 }}
           >
-            Back to Dashboard
+            Back to Quiz Detail
           </Button>
         </Grid>
       </Grid>
