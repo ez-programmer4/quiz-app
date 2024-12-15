@@ -10,7 +10,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 
 const Result = () => {
-  const { score, total, quizId } = useParams(); // Get quizId from the URL parameters
+  const { score, total } = useParams();
   const navigate = useNavigate();
 
   const parsedScore = parseInt(score, 10);
@@ -46,10 +46,10 @@ const Result = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate("/progress")} // Navigate to the progress page
+            onClick={() => navigate("/progress")}
             sx={{ marginTop: 2 }}
           >
-            My Progress
+            my progress
           </Button>
         </Grid>
       </Grid>
