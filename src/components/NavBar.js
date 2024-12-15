@@ -4,17 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext"; // Ensure the path is correct
 
 const Navbar = () => {
-  const { user, logout, login } = useUser(); // This should now work
+  const { user, logout } = useUser(); // This should now work
   const navigate = useNavigate();
 
-  const handleLogin = (credentials) => {
-    // After a successful login API call
-    const userData = { role: "user" /* other data */ };
-    login(userData); // This should set user in context
-  };
   const handleLogout = () => {
     logout(); // Clear user state in context
-    navigate("/login");
+    navigate("/login"); // Redirect to login after logout
   };
 
   return (
@@ -58,12 +53,7 @@ const Navbar = () => {
           )}
           {!user && (
             <>
-              <Button
-                color="inherit"
-                component={Link}
-                to="/login"
-                onClick={handleLogin}
-              >
+              <Button color="inherit" component={Link} to="/login">
                 Login
               </Button>
               <Button color="inherit" component={Link} to="/register">

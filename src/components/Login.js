@@ -10,8 +10,10 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useUser } from "../UserContext"; // Import your user context
 
 const Login = () => {
+  const { login } = useUser(); // Get the login function from context
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,10 +31,12 @@ const Login = () => {
         { email, password }
       );
 
-      // Store token and user info in localStorage
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("userRole", response.data.role);
+      // Use context to set user info
+      login({
+        token: response.data.token,
+        userId: response.data.userId,
+        role: response.data.role,
+      });
 
       // Redirect based on user role
       navigate(
@@ -40,13 +44,11 @@ const Login = () => {
       );
     } catch (error) {
       if (error.response && error.response.data) {
-        // Set error message from server response
         setErrorMessage(
           error.response.data.message ||
             "Login failed. Please check your credentials."
         );
       } else {
-        // General error message
         setErrorMessage("Login failed. Please try again later.");
       }
     } finally {
@@ -77,6 +79,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            type="email" // Ensure email type for validation
           />
         </Box>
         <Box mb={2}>
