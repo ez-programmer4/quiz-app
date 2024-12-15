@@ -58,7 +58,12 @@ const Navbar = () => {
           )}
           {!user && (
             <>
-              <Button color="inherit" component={Link} to="/login">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/login"
+                onClick={handleLogin}
+              >
                 Login
               </Button>
               <Button color="inherit" component={Link} to="/register">
