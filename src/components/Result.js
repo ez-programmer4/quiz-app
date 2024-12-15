@@ -46,10 +46,10 @@ const Result = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate(`/quiz-detail/${quizId}`)} // Navigate to quiz detail page
+            onClick={() => navigate("/progress")} // Navigate to the progress page
             sx={{ marginTop: 2 }}
           >
-            Back to Quiz Detail
+            My Progress
           </Button>
         </Grid>
       </Grid>
