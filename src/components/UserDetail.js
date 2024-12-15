@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
+import { Container, Typography, Card, CardContent } from "@mui/material";
 
 const UserDetail = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [progressData, setProgressData] = useState([]);
+  const [quizData, setQuizData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
 
@@ -18,7 +19,6 @@ const UserDetail = () => {
       }
 
       try {
-        console.log(userId);
         const userResponse = await axios.get(
           `https://quiz-app-backend-1-g8ew.onrender.com/api/users/${userId}`
         );
@@ -27,8 +27,20 @@ const UserDetail = () => {
         const progressResponse = await axios.get(
           `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${userId}`
         );
-        console.log(progressResponse.data);
         setProgressData(progressResponse.data);
+
+        // Fetch quiz data only for quizzes with valid quizId
+        const quizzes = await Promise.all(
+          progressResponse.data
+            .filter((quiz) => quiz.quizId) // Only fetch if quizId is valid
+            .map((quiz) =>
+              axios.get(
+                `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quiz.quizId}`
+              )
+            )
+        );
+
+        setQuizData(quizzes.map((q) => q.data)); // Assuming the response data is the quiz object
 
         const categoriesResponse = await axios.get(
           "https://quiz-app-backend-1-g8ew.onrender.com/api/categories"
@@ -56,15 +68,16 @@ const UserDetail = () => {
         Progress:
       </Typography>
       {progressData && progressData.length > 0 ? (
-        progressData.map((quiz) => (
+        progressData.map((quiz, index) => (
           <Card key={quiz._id} sx={{ marginBottom: 2 }}>
             <CardContent>
-              {/* Check if quizId exists before accessing title */}
               <Typography variant="h5">
-                {quiz.quizId ? quiz.title : "Quiz Title Unavailable"}
+                {quiz.quizId
+                  ? quizData[index]?.title || "Quiz Title Unavailable"
+                  : "Quiz ID Unavailable"}
               </Typography>
               <Typography variant="body1">
-                Category: {quiz?.name || "No category"}
+                {quiz.categoryId ? quiz.categoryId.name : "No category"}
               </Typography>
               <Typography variant="body1">Score: {quiz.score}</Typography>
               <Typography variant="body1">
