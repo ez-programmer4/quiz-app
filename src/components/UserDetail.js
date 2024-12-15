@@ -59,10 +59,10 @@ const UserDetail = () => {
             <CardContent>
               {/* Check if quizId exists before accessing title */}
               <Typography variant="h5">
-                {quiz.quizId ? quiz.quizId.title : "Quiz Title Unavailable"}
+                {quiz.quizId ? quiz.title : "Quiz Title Unavailable"}
               </Typography>
               <Typography variant="body1">
-                Category: {quiz.categoryId?.name || "No category"}
+                Category: {quiz?.name || "No category"}
               </Typography>
               <Typography variant="body1">Score: {quiz.score}</Typography>
               <Typography variant="body1">
