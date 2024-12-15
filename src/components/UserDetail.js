@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Container, Typography, Card, CardContent } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CircularProgress,
+  Snackbar,
+} from "@mui/material";
 
 const UserDetail = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [progressData, setProgressData] = useState([]);
-  const [quizData, setQuizData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (!userId) {
         console.error("User ID is not defined");
+        setLoading(false);
         return;
       }
 
@@ -29,34 +38,33 @@ const UserDetail = () => {
         );
         setProgressData(progressResponse.data);
 
-        // Fetch quiz data only for quizzes with valid quizId
-        const quizzes = await Promise.all(
-          progressResponse.data
-            .filter((quiz) => quiz.quizId) // Only fetch if quizId is valid
-            .map((quiz) =>
-              axios.get(
-                `https://quiz-app-backend-1-g8ew.onrender.com/api/quizzes/${quiz.quizId}`
-              )
-            )
-        );
-
-        setQuizData(quizzes.map((q) => q.data)); // Assuming the response data is the quiz object
-
         const categoriesResponse = await axios.get(
           "https://quiz-app-backend-1-g8ew.onrender.com/api/categories"
         );
         setCategories(categoriesResponse.data);
+
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setError(error);
+        setError("Error loading user data. Please try again later.");
+        setLoading(false);
       }
     };
 
     fetchUserData();
   }, [userId]);
 
-  if (error) return <div>Error loading user data.</div>;
-  if (!user) return <div>Loading...</div>;
+  if (loading) return <CircularProgress />;
+
+  if (error)
+    return (
+      <Snackbar
+        open={true}
+        message={error}
+        autoHideDuration={6000}
+        onClose={() => setError(null)}
+      />
+    );
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: 2 }}>
@@ -68,16 +76,18 @@ const UserDetail = () => {
         Progress:
       </Typography>
       {progressData && progressData.length > 0 ? (
-        progressData.map((quiz, index) => (
+        progressData.map((quiz) => (
           <Card key={quiz._id} sx={{ marginBottom: 2 }}>
             <CardContent>
+              {/* Fetch quiz title using quizId if necessary */}
               <Typography variant="h5">
-                {quiz.quizId
-                  ? quizData[index]?.title || "Quiz Title Unavailable"
-                  : "Quiz ID Unavailable"}
+                {quiz.quizId ? quiz.title : "Quiz Title Unavailable"}
               </Typography>
               <Typography variant="body1">
-                {quiz.categoryId ? quiz.categoryId.name : "No category"}
+                Category:{" "}
+                {quiz.categoryId
+                  ? categories.find((cat) => cat._id === quiz.categoryId)?.name
+                  : "No category"}
               </Typography>
               <Typography variant="body1">Score: {quiz.score}</Typography>
               <Typography variant="body1">
