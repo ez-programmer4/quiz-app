@@ -57,7 +57,10 @@ const UserDetail = () => {
         progressData.map((quiz) => (
           <Card key={quiz._id} sx={{ marginBottom: 2 }}>
             <CardContent>
-              <Typography variant="h5">{quiz.quizId.title}</Typography>
+              {/* Check if quizId exists before accessing title */}
+              <Typography variant="h5">
+                {quiz.quizId ? quiz.quizId.title : "Quiz Title Unavailable"}
+              </Typography>
               <Typography variant="body1">
                 Category: {quiz.categoryId?.name || "No category"}
               </Typography>
