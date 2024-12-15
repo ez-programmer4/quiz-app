@@ -26,6 +26,7 @@ const UserDetail = () => {
         const progressResponse = await axios.get(
           `https://quiz-app-backend-1-g8ew.onrender.com/api/progress/${userId}`
         );
+        console.log(progressData.data);
         setProgressData(progressResponse.data);
 
         const categoriesResponse = await axios.get(
