@@ -9,6 +9,7 @@ import {
   FormControl,
   Box,
   CircularProgress,
+  Snackbar,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -20,6 +21,9 @@ const Quiz = () => {
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
@@ -30,7 +34,9 @@ const Quiz = () => {
         setTimeLeft(response.data.questions.length * 60); // 1 minute per question
       } catch (error) {
         console.error("Error fetching quiz:", error);
-        alert("Quiz not found. Please check the quiz ID or try again later."); // User-friendly message
+        setErrorMessage(
+          "Quiz not found. Please check the quiz ID or try again later."
+        ); // Set error message
         navigate("/dashboard"); // Redirect to a safe route
       }
     };
@@ -68,7 +74,7 @@ const Quiz = () => {
 
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("You must be logged in to submit your results.");
+      setErrorMessage("You must be logged in to submit your results.");
       navigate("/login");
       setLoading(false);
       return;
@@ -91,12 +97,15 @@ const Quiz = () => {
         config
       );
 
+      setSuccessMessage("Results submitted successfully!"); // Success message
       navigate(`/result/${score}/${quiz.questions.length}`);
     } catch (error) {
       console.error("Error saving result:", error);
       if (error.response && error.response.status === 401) {
-        alert("Your session has expired. Please log in again.");
+        setErrorMessage("Your session has expired. Please log in again.");
         navigate("/login");
+      } else {
+        setErrorMessage("An error occurred while submitting your results.");
       }
     } finally {
       setLoading(false);
@@ -151,6 +160,22 @@ const Quiz = () => {
       >
         {loading ? "Submitting..." : "Submit"}
       </Button>
+
+      {/* Snackbar for error messages */}
+      <Snackbar
+        open={!!errorMessage}
+        autoHideDuration={6000}
+        onClose={() => setErrorMessage("")}
+        message={errorMessage}
+      />
+
+      {/* Snackbar for success messages */}
+      <Snackbar
+        open={!!successMessage}
+        autoHideDuration={6000}
+        onClose={() => setSuccessMessage("")}
+        message={successMessage}
+      />
     </Container>
   );
 };
